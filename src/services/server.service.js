@@ -2,13 +2,14 @@ import express, { urlencoded } from 'express'
 import { env } from '../config/env.config.js'
 import { httpLogger } from '../middlewares/logger.middleware.js'
 import { Logger } from '../utils/Logger.js'
+import { DB } from '../database/Database.js'
 
 
 const { server: { port, environment } } = env
 const app = express()
 const logger = new Logger('SERVER')
 
-export const bootstrap = (config = {}) => {
+export const bootstrap = async(config = {}) => {
     environment === 'PROD' 
         ? logger.info('Servidor inicializado en modo Producción')
         : logger.info('Servidor inicializado en modo desarrollo')
@@ -25,7 +26,7 @@ export const bootstrap = (config = {}) => {
     }
 
     try {
-        
+        await DB.init()
         app.listen(port, () => {
             logger.info(`Servidor inicializado en el puerto ${port}`)
         })
