@@ -1,4 +1,5 @@
 import { User } from "../models/User.model.js";
+import { generateToken } from "../utils/generateToken.util.js";
 import { Logger } from "../utils/Logger.js";
 import { hashPassword } from "../utils/password.util.js";
 
@@ -17,6 +18,9 @@ export class UserService {
     
             const userResponse = user.toJSON()
             delete userResponse.password
+            delete userResponse.createdAt
+            delete userResponse.updatedAt
+            delete userResponse.deletedAt
     
             this.logger.debug('Usuario creaod con éxito')
             return userResponse
@@ -30,6 +34,7 @@ export class UserService {
         try {
             this.logger.info('Inicializando registro de usuario')
 
+            console.log(data)
             //Verificar si el usuario existe
             this.logger.info('Verificando existencia del usuario')
             const existingUser = await User.findOne({ where: { email: data.email }})
@@ -41,9 +46,16 @@ export class UserService {
 
             //crear el usuario
             const user = await this.create(data)
+            const token = generateToken(user)
 
+            this.logger.info('Usuario registrado con éxito')
+            return {
+                user,
+                token
+            }
         } catch (error) {
-            
+            this.logger.error(`Error al registrar el usuario: ${error.message}`)
+            throw new Error('Error al registrar el usuario')
         }
     }
 }

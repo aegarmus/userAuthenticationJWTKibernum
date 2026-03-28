@@ -16,6 +16,8 @@ export const env = {
         dialect: process.env.DB_DIALECT,
     },
     auth: {
-        saltRound: process.env.SALT_ROUND
+        saltRound: Number(process.env.SALT_ROUND),
+        secret: process.env.SECRET_KEY,
+        expiresIn: process.env.EXPIRES_IN
     }
 }
