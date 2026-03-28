@@ -16,5 +16,21 @@ export class AuthController {
                 data,
             });
         }
-    }   
+    }  
+    static async login(req, res) {
+        try {
+            const data = await UserService.login(req.body)
+            res.status(200).json({
+                message: "Usuario registrado con éxito",
+                statusCode: 200,
+                data,
+            });
+        } catch (error) {
+            res.status(403).json({
+                message: "Usuario no registrado",
+                statusCode: 403,
+                data,
+            });
+        }
+    } 
 }
