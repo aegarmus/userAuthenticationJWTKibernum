@@ -3,7 +3,7 @@ import { env } from '../config/env.config.js'
 import { httpLogger } from '../middlewares/logger.middleware.js'
 import { Logger } from '../utils/Logger.js'
 import { DB } from '../database/Database.js'
-import authRouter from '../routes/auth.routes.js'
+import appRouter from '../routes/index.routes.js'
 
 
 const { server: { port, environment } } = env
@@ -26,7 +26,7 @@ export const bootstrap = async(config = {}) => {
         app.use(httpLogger)
     }
 
-    app.use('/api/v1', authRouter)
+    app.use('/api/v1', appRouter)
 
     try {
         await DB.init()

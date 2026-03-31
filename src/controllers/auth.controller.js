@@ -21,7 +21,7 @@ export class AuthController {
         try {
             const data = await UserService.login(req.body)
             res.status(200).json({
-                message: "Usuario registrado con éxito",
+                message: "login exitoso",
                 statusCode: 200,
                 data,
             });
@@ -33,4 +33,5 @@ export class AuthController {
             });
         }
     } 
+
 }

@@ -94,4 +94,18 @@ export class UserService {
             throw new Error('Error al momento de loguear')
         }
     }
+
+    static async findAll() {
+        try {
+            this.logger.info('Incializando búsqueda de usuarios')
+            const users = await User.findAll({
+                attributes: { exclude: ['password', 'createdAt', 'updatedAt', 'deletedAt'] }
+            })
+            this.logger.info(`Se encontraron ${users.length} usuarios`)
+            return users
+        } catch (error) {
+            this.logger.error(`Error al encontrar los usuarios: ${error.message}`)
+            throw new Error('Error al encontrar los usuarios')
+        }
+    }
 }
