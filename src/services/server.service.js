@@ -1,4 +1,5 @@
 import express, { urlencoded } from 'express'
+import cors from 'cors'
 import { env } from '../config/env.config.js'
 import { httpLogger } from '../middlewares/logger.middleware.js'
 import { Logger } from '../utils/Logger.js'
@@ -15,6 +16,7 @@ export const bootstrap = async(config = {}) => {
         ? logger.info('Servidor inicializado en modo Producción')
         : logger.info('Servidor inicializado en modo desarrollo')
         
+    app.use(cors())
     app.use(express.json())
     if(config.multiFormat) {
         logger.info('Inicializando form format en el servidor')
