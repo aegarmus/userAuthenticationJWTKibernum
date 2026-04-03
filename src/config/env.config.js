@@ -14,6 +14,7 @@ export const env = {
         host: process.env.DB_HOST,
         port: process.env.DB_PORT,
         dialect: process.env.DB_DIALECT,
+        url: process.env.DB_URL
     },
     auth: {
         saltRound: Number(process.env.SALT_ROUND),

@@ -1,6 +1,15 @@
 import { Sequelize } from 'sequelize'
 import { env } from './env.config.js'
 
-const { name, user, pass, host, port , dialect } = env.db
+const { server: { environment } } = env
+const { name, user, pass, host, port , dialect, url } = env.db
 
-export const dbConfig = new Sequelize(name, user, pass, { host, port, dialect })
+let config = null
+if(environment === 'PROD') {
+    config = new Sequelize(url, { dialect })
+
+} else {
+    config = new Sequelize(name, user, pass, { host, port, dialect })
+}
+
+export const dbConfig = config
